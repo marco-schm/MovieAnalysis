@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <title>Empfehlungen für "{{ movie['title'] }}"</title>
+    <!-- Swiper CSS -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
+    />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #121212;
+            color: #eee;
+            padding: 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 0 8px rgba(255,255,255,0.3);
+        }
+        .main-movie {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .main-movie img {
+            width: 300px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.8);
+            margin-bottom: 15px;
+        }
+        .main-movie p {
+            font-size: 1.1rem;
+            line-height: 1.4;
+            color: #ccc;
+            max-width: 700px;
+            margin: auto;
+        }
+        .swiper {
+            width: 100%;
+            padding-bottom: 40px;
+        }
+        .swiper-slide {
+            background: #1f1f1f;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+        }
+        .swiper-slide:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.9);
+        }
+        .rec-poster {
+            width: 160px;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+        }
+        .rec-title {
+            font-weight: 600;
+            color: #f0f0f0;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .rec-similarity {
+            font-size: 0.9rem;
+            color: #aaa;
+            text-align: center;
+        }
+        /* Navigation buttons */
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: #fff;
+        }
+        /* Pagination bullets */
+        .swiper-pagination-bullet {
+            background: #888;
+            opacity: 1;
+        }
+        .swiper-pagination-bullet-active {
+            background: #fff;
+        }
+        a.back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #ccc;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid #555;
+            padding: 8px 18px;
+            border-radius: 30px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        a.back-link:hover {
+            background-color: #eee;
+            color: #121212;
+        }
+    </style>
+</head>
+<body>
+<h1>Empfehlungen für "{{ movie['title'] }}"</h1>
+<div class="main-movie">
+    <img src="https://image.tmdb.org/t/p/original{{ movie['poster_path'] }}" alt="{{ movie['title'] }}">
+    <p>{{ movie['plot'] }}</p>
+</div>
+
+<div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+        {% for rec in recommendations %}
+        <div class="swiper-slide" onclick="location.href='{{ url_for('movie', movie_id=rec['id']) }}'">
+            <img
+                    class="rec-poster"
+                    src="https://image.tmdb.org/t/p/original{{ rec['poster_path'] }}"
+                    alt="{{ rec['title'] }}"
+            />
+            <div class="rec-title">{{ rec['title'] }}</div>
+            <div class="rec-similarity">Similarity: {{ '%.2f'|format(rec['similarity']) }}</div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+</div>
+
+<a href="{{ url_for('home') }}" class="back-link">Zurück zur Liste</a>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script>
+    const swiper = new Swiper(".mySwiper", {
+        slidesPerView: 4,
+        spaceBetween: 25,
+        loop: true,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        breakpoints: {
+            320: {
+                slidesPerView: 1,
+                spaceBetween: 10,
+            },
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 15,
+            },
+            1024: {
+                slidesPerView: 4,
+                spaceBetween: 25,
+            },
+        },
+    });
+</script>
+</body>
+</html>
