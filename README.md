@@ -1,13 +1,13 @@
 # MovieAnalysis
 ## Scenario & Introduction
-### Problem Statement\
+### Problem Statement
 Streaming platforms ingest hundreds of new titles every month, yet most arrive with only minimal metadata.
 Without reliable genre tags or similarity links, users struggle to discover relevant content, and providers miss out on engagement opportunities.
 ### Business / Research Goal
 Our goal is to **automatically enrich newly ingested movies** by providing:
 1. **Primary genre predictions** derived solely from a plot summary.
 2. **Content-based recommendations** that surface semantically similar titles on day 0.
-#### Concrete Research Questions\n",
+#### Concrete Research Questions",
 | #   | Question |
 |-----|----------|
 | **RQ-1** | *How accurately can genres be inferred from plot texts, and which model performs best?* |
